@@ -61,9 +61,6 @@
  * 
  */
 
-#include <algorithm>
-#include <iostream>
-#include <sstream>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -71,6 +68,7 @@ using namespace std;
 // @lc code=start
 class Solution {
 public:
+    // 排序得到键
     // vector<vector<string>> groupAnagrams(vector<string>& strs) {
     //     std::vector<std::vector<std::string>> ans;
     //     std::unordered_map<std::string, int> m;
@@ -93,6 +91,7 @@ public:
         std::unordered_map<std::string, int> m;
         int idx = 0;
         for (const auto& s : strs) {
+            // 记录频率得到键
             std::string key(26, 0);
             for (const auto& c: s) {
                 ++key[c - 'a'];
