@@ -45,22 +45,45 @@
  *
  */
 
-#include <functional>
-#include <queue>
 #include <vector>
 using namespace std;
 // @lc code=start
 class Solution {
 public:
-  int findKthLargest(vector<int> &nums, int k) {
-    std::priority_queue<int, std::vector<int>, std::greater<int>> q;
-    for (const int &n : nums) {
-      q.push(n);
-      if (q.size() > k) {
-        q.pop();
-      }
+  // int findKthLargest(vector<int> &nums, int k) {
+  //   std::priority_queue<int, std::vector<int>, std::greater<int>> q;
+  //   for (const int &n : nums) {
+  //     q.push(n);
+  //     if (q.size() > k) {
+  //       q.pop();
+  //     }
+  //   }
+  //   return q.top();
+  // }
+
+  int quickSelect(vector<int> &nums, int l, int r, int k) {
+    if (l == r)
+      return nums[l];
+    int i = l - 1, j = r + 1, pivot = nums[(l + r) >> 1];
+    while (i < j) {
+      do
+        i++;
+      while (nums[i] > pivot); // 降序排列，找第K大
+      do
+        j--;
+      while (nums[j] < pivot);
+      if (i < j)
+        swap(nums[i], nums[j]);
     }
-    return q.top();
+    // 左侧数量
+    int cnt = j - l + 1;
+    if (k <= cnt)
+      return quickSelect(nums, l, j, k);
+    return quickSelect(nums, j + 1, r, k - cnt);
+  }
+
+  int findKthLargest(vector<int> &nums, int k) {
+    return quickSelect(nums, 0, nums.size() - 1, k);
   }
 };
 // @lc code=end
