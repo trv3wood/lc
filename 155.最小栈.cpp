@@ -62,35 +62,32 @@
  *
  */
 
-#include <climits>
 #include <stack>
-using namespace std;
 // @lc code=start
 class MinStack {
-    stack<std::pair<int, int>> st;
-
 public:
-    MinStack() {
-        // 添加栈底哨兵 INT_MAX
-        // 这里的 0 写成任意数都可以，反正用不到
-        st.emplace(0, INT_MAX);
-    }
+  std::stack<int> stack;
+  std::stack<int> minStack;
+  MinStack() : stack() {}
 
-    void push(int val) {
-        st.emplace(val, min(getMin(), val)); 
+  void push(int val) {
+    stack.push(val);
+    if (minStack.empty() || val <= minStack.top()) {
+      minStack.push(val);
     }
+  }
 
-    void pop() {
-        st.pop();
+  void pop() {
+    int val = stack.top();
+    if (val == minStack.top()) {
+      minStack.pop();
     }
+    stack.pop();
+  }
 
-    int top() {
-        return st.top().first;
-    }
+  int top() { return stack.top(); }
 
-    int getMin() {
-        return st.top().second;
-    }
+  int getMin() { return minStack.top(); }
 };
 
 /**
